@@ -1,0 +1,27 @@
+- name: Google APT key
+  apt_key:
+    id: D38B4796
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    state: present
+
+- name: Google Chrome APT repo
+  apt_repository:
+    filename: google-chrome
+    repo: deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main
+    state: present
+
+- name: Google Talk Plugin APT repo
+  apt_repository:
+    filename: google-talkplugin
+    repo: deb [arch=amd64] http://dl.google.com/linux/talkplugin/deb/ stable main
+    state: present
+
+- name: Install Google Chrome
+  apt:
+    name: google-chrome-stable
+    state: latest
+
+- name: Install Google Talk Plugin
+  apt:
+    name: google-talkplugin
+    state: latest
