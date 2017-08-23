@@ -1,0 +1,19 @@
+- name: Download MegaCli archive
+  get_url:
+    url: https://docs.broadcom.com/docs-and-downloads/raid-controllers/raid-controllers-common-files/8-07-14_MegaCLI.zip
+    dest: /usr/src/8-07-14_MegaCLI.zip
+    checksum: sha256:d9b152ae3dab76a334b9251702dba3311ceed91b58aaf52d916eb4ba1c2ab6e9
+
+- name: Install packages for extracting MegaCli
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - unzip
+    - rpm2cpio
+
+- name: Extract MegaCli
+  shell: unzip -p /usr/src/8-07-14_MegaCLI.zip Linux/MegaCli-8.07.14-1.noarch.rpm | rpm2cpio | cpio -i -d
+  args:
+    chdir: /
+    creates: /opt/MegaRAID/MegaCli/MegaCli64
