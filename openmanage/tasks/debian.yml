@@ -1,0 +1,16 @@
+- name: Dell OpenManage APT key
+  apt_key:
+    id: 1285491434D8786F
+    keyserver: pool.sks-keyservers.net
+    state: present
+
+- name: Dell OpenManage APT repository
+  apt_repository:
+    filename: linux.dell.com.sources
+    repo: deb http://linux.dell.com/repo/community/{{ ansible_distribution|lower }} {{ ansible_distribution_release }} openmanage
+    state: present
+
+- name: Install Dell OpenManage
+  apt:
+    name: srvadmin-all
+    state: present
