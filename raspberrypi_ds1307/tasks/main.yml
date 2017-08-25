@@ -1,0 +1,34 @@
+- name: Install packages for DS1307 RTC
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python-smbus
+    - i2c-tools
+
+- name: Enable I2C interface
+  lineinfile:
+    path: /boot/config.txt
+    regexp: "^#?dtparam=i2c_arm="
+    line: "dtparam=i2c_arm=on"
+
+- name: Load i2c-dev module
+  lineinfile:
+    path: /etc/modules
+    line: i2c-dev
+
+- name: Remove i2c-dev from raspi-blacklist.conf
+  lineinfile:
+    path: /etc/modprobe.d/raspi-blacklist.conf
+    regexp: "^\\s*i2c-dev\\s*$"
+    state: absent
+
+- name: Load ds1307 driver at boot
+  lineinfile:
+    path: /boot/config.txt
+    line: dtoverlay=i2c-rtc,ds1307
+
+- name: /lib/udev/hwclock-set
+  copy:
+    src: hwclock-set
+    dest: /lib/udev/hwclock-set
