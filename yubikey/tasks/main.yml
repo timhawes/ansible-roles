@@ -1,0 +1,15 @@
+- name: Install YubiKey packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - scdaemon
+    - python-yubico-tools
+    - ykneomgr
+    - yubikey-neo-manager
+    - yubikey-personalization
+    - yubikey-personalization-gui
+    - yubikey-piv-manager
+    - yubioath-desktop
+    - ykcs11
+    - yubico-piv-tool
