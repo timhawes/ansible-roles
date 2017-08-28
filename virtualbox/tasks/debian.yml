@@ -1,0 +1,35 @@
+- name: VirtualBox APT key
+  apt_key:
+    id: 2980AECF
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+
+- name: VirtualBox APT repo
+  apt_repository:
+    filename: virtualbox
+    repo: deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib
+    state: present
+
+- name: Install VirtualBox package
+  package:
+    name: virtualbox-{{ virtualbox_major_release }}
+    state: latest
+
+- name: Prevent automatic upgrades to VirtualBox
+  dpkg_selections:
+    name: virtualbox-{{ virtualbox_major_release }}
+    selection: hold
+
+- name: VirtualBox facts
+  virtualbox_facts:
+
+- name: Install VirtualBox extension pack
+  when: virtualbox_version != virtualbox_extpack_version
+  shell: |
+    set -e
+    url=http://download.virtualbox.org/virtualbox/{{ virtualbox_version }}/Oracle_VM_VirtualBox_Extension_Pack-{{ virtualbox_version }}.vbox-extpack
+    tmp=$(mktemp -d)
+    cd $tmp
+    wget $url
+    echo y | vboxmanage extpack install --replace *.vbox-extpack
+    rm -rf $tmp

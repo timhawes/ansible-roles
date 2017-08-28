@@ -1,0 +1,32 @@
+import os
+import subprocess
+from ansible.module_utils.basic import AnsibleModule
+
+def get_virtualbox_extpack_version():
+    import xml.etree.ElementTree as ET
+    if os.path.exists('/usr/lib/virtualbox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack/ExtPack.xml'):
+        root = ET.parse('/usr/lib/virtualbox/ExtensionPacks/Oracle_VM_VirtualBox_Extension_Pack/ExtPack.xml').getroot()
+        version = root.find('{http://www.virtualbox.org/VirtualBoxExtensionPack}Version').text
+        return version
+
+def main():
+    module = AnsibleModule(
+        argument_spec=dict(),
+        supports_check_mode=True,
+    )
+
+    facts = {}
+
+    output = subprocess.check_output(['vboxmanage', '-version'])
+    version, build = output.strip().split('r')
+    facts['virtualbox_version'] = version
+    facts['virtualbox_build'] = build
+
+    extpack = get_virtualbox_extpack_version()
+    if extpack is not None:
+        facts['virtualbox_extpack_version'] = extpack
+
+    module.exit_json(msg="", ansible_facts=facts)
+
+if __name__ == '__main__':
+    main()
