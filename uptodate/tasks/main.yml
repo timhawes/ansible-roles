@@ -1,0 +1,21 @@
+- name: Install python-apt library
+  apt:
+    name: python-apt
+    state: present
+  check_mode: no
+
+- name: Install unattended-upgrades tool
+  apt:
+    name: unattended-upgrades
+    state: present
+
+- name: Install aptitude tool
+  apt:
+    name: aptitude
+    state: present
+
+- name: Install safe updates
+  apt:
+    upgrade: safe
+    update_cache: yes
+    autoremove: yes
