@@ -1,7 +1,5 @@
-- include: debian.yml
+- include_tasks: debian.yml
   when: ansible_distribution == 'Debian'
-  static: no
 
-- include: ubuntu.yml
+- include_tasks: ubuntu.yml
   when: ansible_distribution == 'Ubuntu'
-  static: no
