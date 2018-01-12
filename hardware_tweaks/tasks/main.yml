@@ -1,0 +1,5 @@
+- name: Intel microcode
+  apt:
+    pkg: intel-microcode
+    state: latest
+  when: ansible_virtualization_role != "guest" and ansible_ansible_processor[1] == "GenuineIntel" and (ansible_distribution == "Debian" or ansible_distribution == "Ubuntu")
