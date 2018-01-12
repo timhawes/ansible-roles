@@ -17,3 +17,9 @@
   args:
     chdir: /
     creates: /opt/MegaRAID/MegaCli/MegaCli64
+
+- name: MegaCli symlink
+  file:
+    src: /opt/MegaRAID/MegaCli/MegaCli64
+    dest: /usr/local/sbin/MegaCli
+    state: link
