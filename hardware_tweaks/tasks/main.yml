@@ -3,3 +3,9 @@
     pkg: intel-microcode
     state: latest
   when: ansible_virtualization_role != "guest" and ansible_processor[1] == "GenuineIntel" and (ansible_distribution == "Debian" or ansible_distribution == "Ubuntu")
+
+- name: VMware Tools
+  apt:
+    pkg: open-vm-tools
+    state: latest
+  when: ansible_pkg_mgr == "apt" and ansible_virtualization_role == "guest" and ansible_virtualization_type == "VMware"
