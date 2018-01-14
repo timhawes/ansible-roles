@@ -1,2 +1,2 @@
-docker_compose_version: 1.17.1
-docker_compose_checksum: sha256:db0a7b79d195dc021461d5628a8d53eeb2e556d2548b764770fccabb0a319dd8
+docker_compose_version: 1.18.0
+docker_compose_checksum: sha256:b2f2c3834107f526b1d9cc8d8e0bdd132c6f1495b036a32cbc61b5288d2e2a01
