@@ -2,13 +2,13 @@
   apt:
     pkg: intel-microcode
     state: latest
-  when: ansible_distribution_release == "Ubuntu" and ansible_virtualization_role != "guest" and ansible_processor[1] == "GenuineIntel"
+  when: ansible_distribution == "Ubuntu" and ansible_virtualization_role != "guest" and ansible_processor[1] == "GenuineIntel"
 
 - name: AMD64 microcode
   apt:
     pkg: amd64-microcode
     state: latest
-  when: ansible_distribution_release == "Ubuntu" and ansible_virtualization_role != "guest" and ansible_processor[1] == "AuthenticAMD"
+  when: ansible_distribution == "Ubuntu" and ansible_virtualization_role != "guest" and ansible_processor[1] == "AuthenticAMD"
 
 - name: VMware Tools
   apt:
