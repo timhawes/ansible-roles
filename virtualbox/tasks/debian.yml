@@ -10,14 +10,22 @@
     repo: deb http://download.virtualbox.org/virtualbox/debian {{ ansible_distribution_release }} contrib
     state: present
 
-- name: Install VirtualBox package
-  package:
-    name: virtualbox-{{ virtualbox_major_release }}
-    state: latest
+- name: VirtualBox facts
+  virtualbox_facts:
+
+- name: Remove old versions of VirtualBox
+  shell: |
+    DEBIAN_FRONTEND=noninteractive apt-get remove -y --ignore-hold {{ virtualbox_remove_packages|join(" ") }}
+  when: virtualbox_release is defined and virtualbox_release|string != virtualbox_install_release|string
+
+- name: Install or upgrade VirtualBox
+  shell: |
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --force-yes --ignore-hold virtualbox-{{ virtualbox_install_release }}
+  ignore_errors: yes
 
 - name: Prevent automatic upgrades to VirtualBox
   dpkg_selections:
-    name: virtualbox-{{ virtualbox_major_release }}
+    name: virtualbox-{{ virtualbox_install_release }}
     selection: hold
 
 - name: VirtualBox facts
@@ -27,7 +35,7 @@
   when: virtualbox_version != virtualbox_extpack_version
   shell: |
     set -e
-    url=http://download.virtualbox.org/virtualbox/{{ virtualbox_version }}/Oracle_VM_VirtualBox_Extension_Pack-{{ virtualbox_version }}.vbox-extpack
+    url=http://download.virtualbox.org/virtualbox/{{ virtualbox_version }}/Oracle_VM_VirtualBox_Extension_Pack-{{ virtualbox_version }}-{{ virtualbox_build }}.vbox-extpack
     tmp=$(mktemp -d)
     cd $tmp
     wget $url

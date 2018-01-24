@@ -1,1 +1,15 @@
-virtualbox_major_release: 5.1
+virtualbox_install_release: 5.2
+virtualbox_remove_packages:
+  - virtualbox-4.3
+  - virtualbox-5.0
+  - virtualbox-5.1
+  - virtualbox
+  - virtualbox-dkms
+  - virtualbox-guest-additions-iso
+  - virtualbox-guest-dkms
+  - virtualbox-guest-source
+  - virtualbox-guest-utils
+  - virtualbox-guest-x11
+  - virtualbox-qt
+  - virtualbox-source
+  - virtualbox-ext-pack

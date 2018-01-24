@@ -17,14 +17,15 @@ def main():
 
     facts = {}
 
-    output = subprocess.check_output(['vboxmanage', '-version'])
-    version, build = output.strip().split('r')
-    facts['virtualbox_version'] = version
-    facts['virtualbox_build'] = build
-
-    extpack = get_virtualbox_extpack_version()
-    if extpack is not None:
-        facts['virtualbox_extpack_version'] = extpack
+    try:
+        output = subprocess.check_output(['vboxmanage', '-version'])
+        version, build = output.strip().split('r')
+        facts['virtualbox_version'] = version
+        facts['virtualbox_release'] = '.'.join(version.split('.')[0:2])
+        facts['virtualbox_build'] = build
+        facts['virtualbox_extpack_version'] = get_virtualbox_extpack_version()
+    except OSError:
+        pass
 
     module.exit_json(msg="", ansible_facts=facts)
 
