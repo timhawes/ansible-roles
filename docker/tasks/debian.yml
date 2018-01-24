@@ -18,6 +18,11 @@
     url: https://download.docker.com/linux/debian/gpg
     state: present
 
+- name: /etc/apt/sources.list.d
+  file:
+    path: /etc/apt/sources.list.d
+    state: directory
+
 - name: Docker APT repo
   apt_repository:
     filename: docker
