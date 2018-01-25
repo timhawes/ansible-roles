@@ -15,6 +15,7 @@
 
 - name: Remove old versions of VirtualBox
   shell: |
+    apt-mark unhold {{ virtualbox_remove_packages|join(" ") }} || true
     DEBIAN_FRONTEND=noninteractive apt-get remove -y --ignore-hold {{ virtualbox_remove_packages|join(" ") }}
   when: virtualbox_release is defined and virtualbox_release|string != virtualbox_install_release|string
 
