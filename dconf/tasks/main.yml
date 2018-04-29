@@ -1,13 +1,30 @@
 - name: dconf packages
-  apt: pkg={{item}} state=installed
+  apt:
+    pkg: "{{item}}"
+    state: present
   with_items:
-  - dconf-cli
+    - dconf-cli
 
 - name: Setup dconf profile directory
-  file: dest=/etc/dconf/profile owner=root group=root mode=0755 state=directory
+  file:
+    dest: /etc/dconf/profile
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
 
 - name: Setup dconf profile
-  copy: src=dconf.profile.user dest=/etc/dconf/profile/user owner=root group=root mode=0644
+  copy:
+    src: dconf.profile.user
+    dest: /etc/dconf/profile/user
+    owner: root
+    group: root
+    mode: 0644
 
 - name: Setup dconf db directory
-  file: dest=/etc/dconf/db/site.d owner=root group=root mode=0755 state=directory
+  file:
+    dest: /etc/dconf/db/site.d
+    owner: root
+    group: root
+    mode: 0755
+    state: directory
