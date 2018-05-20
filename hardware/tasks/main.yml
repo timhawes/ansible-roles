@@ -14,4 +14,4 @@
   apt:
     pkg: open-vm-tools
     state: latest
-  when: ansible_pkg_mgr == "apt" and and ansible_virtualization_role is defined ansible_virtualization_role == "guest" and and ansible_virtualization_type is defined ansible_virtualization_type == "VMware"
+  when: ansible_pkg_mgr == "apt" and ansible_virtualization_role is defined and ansible_virtualization_role == "guest" and ansible_virtualization_type is defined and ansible_virtualization_type == "VMware"
